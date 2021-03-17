@@ -8,6 +8,7 @@ void main() {
     final initialSize = Size(600, 450);
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
+    //appWindow.maxSize = Size(1200, 900);
     appWindow.alignment = Alignment.center;
     appWindow.title = 'Groovin Create';
     appWindow.show();
