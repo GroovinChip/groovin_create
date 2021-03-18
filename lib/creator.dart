@@ -17,10 +17,13 @@ class _CreatorState extends State<Creator> {
   int _pageIndex = 0;
   PageController _pageController;
   BuildConfig _config = BuildConfig(
-      projectName: 'my_app',
-      projectLocation: '\$HOME/development/flutter_projects/apps',
-      description: 'A new Flutter application.',
-      packageName: 'com.example.my_app');
+    projectName: 'my_app',
+    projectLocation: '/Users/groov/development/flutter_projects/apps',
+    description: 'A new Flutter application.',
+    packageName: 'com.example.my_app',
+  );
+
+  String result = '';
 
   @override
   void initState() {
@@ -173,6 +176,7 @@ class _CreatorState extends State<Creator> {
                           );
                         },
                       ),
+                      //Text(result),
                     ],
                   ),
                 ),
@@ -198,32 +202,19 @@ class _CreatorState extends State<Creator> {
                     // validate
                     // run command
                     try {
-                      var result = await Process.run('groovin', [
-                        'create',
-                        '${_config.projectName}',
-                        '${_config.projectLocation}',
-                        '${_config.description}',
-                        '${_config.packageName}',
-                      ]);
-                      //var result = await Process.run('grep', ['-i', 'main', 'test.dart']);
-                      print(result.stdout);
-                      /*var result = await Process.run(
-                        './groovin_cli.exe',
-                        [],
-                        includeParentEnvironment: true,
-                        workingDirectory:
-                            '/\$HOME/development/flutter_projects',
-                        runInShell: true,
+                      final myDir = new Directory('${_config.projectLocation}');
+                      myDir.exists().then((value) => print(value));
+                      var _result = await Process.run(
+                        'groovin',
+                        [
+                          'create',
+                          '${_config.projectName}',
+                          '${_config.description}',
+                          '${_config.packageName}',
+                        ],
+                        workingDirectory: '${_config.projectLocation}/',
                       );
-                      print(result.stdout);
-                      print(result.stderr);
-                      print(result.exitCode);*/
-                      /*await Process.run('groovin create', [
-                        _config.projectName,
-                        _config.projectLocation,
-                        _config.description,
-                        _config.packageName,
-                      ]);*/
+                      print(_result.stdout);
                     } catch (e) {
                       print(e);
                     }
