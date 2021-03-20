@@ -1,7 +1,7 @@
 name: groovin_create
 description: A Flutter Desktop App for creating Flutter apps using the groovin_cli.
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.1.1+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

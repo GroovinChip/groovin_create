@@ -305,7 +305,7 @@ class _CreatorState extends State<Creator> with Provided {
                             setState(() => creatingProject = false);
                             setState(() => success = true);
                             if (kReleaseMode && Platform.isMacOS) {
-                              await Future.delayed(Duration(seconds: 2));
+                              await Future.delayed(Duration(seconds: 4));
                               exit(0);
                             }
                           } else {
