@@ -7,7 +7,8 @@ A Flutter Desktop App for creating Flutter apps using the groovin_cli.
 * Only macOS is supported at this time.
 
 ## Roadmap:
-- [ ] Project creation
+- [X] Project creation
 - [ ] Windows support
 - [ ] Linux support
 - [ ] Project configuration options like platforms, language support
+- [ ] More robust settings

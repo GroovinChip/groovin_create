@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FinishButton extends StatelessWidget {
-  const FinishButton({
+class CreateButton extends StatelessWidget {
+  const CreateButton({
     Key key,
     this.onPressed,
   }) : super(key: key);

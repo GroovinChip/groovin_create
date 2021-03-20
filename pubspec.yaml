@@ -1,7 +1,7 @@
 name: groovin_create
 description: A Flutter Desktop App for creating Flutter apps using the groovin_cli.
 publish_to: 'none'
-version: 0.0.1+1
+version: 0.1.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,6 +12,19 @@ dependencies:
 
   bitsdojo_window: ^0.0.9
   cupertino_icons: ^1.0.2
+  file_selector: ^0.8.2
+  file_selector_macos: ^0.0.4
+  menubar:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/menubar
+#  multi_window:
+#    git: https://github.com/rodydavis/multi_window.git
+  path_provider: ^2.0.1
+  path_provider_macos: ^2.0.0
+  provider: ^5.0.0
+  rxdart: ^0.25.0
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
