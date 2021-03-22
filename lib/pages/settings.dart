@@ -4,6 +4,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:groovin_create/extensions/extensions.dart';
 import 'package:groovin_create/mixins/provided_state.dart';
 import 'package:groovin_create/services/user_prefs_service.dart';
 import 'package:groovin_create/widgets/elevated_icon_button.dart';
@@ -24,9 +25,9 @@ class _SettingsState extends State<Settings> with Provided {
   @override
   void initState() {
     super.initState();
-    savePath = prefsService.prefsStream.valueWrapper!.value.defaultSavePath;
+    savePath = prefsService.prefsStream.currentValue.defaultSavePath;
     useDefaultDescription =
-        prefsService.prefsStream.valueWrapper!.value.shouldUseDefaultDescription;
+        prefsService.prefsStream.currentValue.shouldUseDefaultDescription;
   }
 
   @override
@@ -34,7 +35,7 @@ class _SettingsState extends State<Settings> with Provided {
     return Material(
       child: StreamBuilder<UserPrefs>(
         stream: prefsService.prefsStream,
-        initialData: prefsService.prefsStream.valueWrapper!.value,
+        initialData: prefsService.prefsStream.currentValue,
         builder: (context, snapshot) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

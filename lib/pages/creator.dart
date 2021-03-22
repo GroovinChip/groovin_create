@@ -6,10 +6,11 @@ import 'package:file_selector_platform_interface/file_selector_platform_interfac
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:groovin_create/models/build_config.dart';
+import 'package:groovin_create/extensions/extensions.dart';
 import 'package:groovin_create/mixins/provided_state.dart';
-import 'package:groovin_create/services/user_prefs_service.dart';
+import 'package:groovin_create/models/build_config.dart';
 import 'package:groovin_create/pages/settings.dart';
+import 'package:groovin_create/services/user_prefs_service.dart';
 import 'package:groovin_create/widgets/buttons/create_button.dart';
 import 'package:groovin_create/widgets/buttons/next_button.dart';
 import 'package:groovin_create/widgets/buttons/previous_button.dart';
@@ -40,7 +41,7 @@ class _CreatorState extends State<Creator> with Provided {
   void initState() {
     super.initState();
     _config.projectLocation =
-        prefsService.prefsStream.valueWrapper!.value.defaultSavePath;
+        prefsService.prefsStream.currentValue.defaultSavePath;
     _pageController = PageController(initialPage: _pageIndex);
   }
 
@@ -118,7 +119,7 @@ class _CreatorState extends State<Creator> with Provided {
           Expanded(
             child: StreamBuilder<UserPrefs>(
               stream: prefsService.prefsStream,
-              initialData: prefsService.prefsStream.valueWrapper!.value,
+              initialData: prefsService.prefsStream.currentValue,
               builder: (context, snapshot) {
                 final userPrefs = snapshot.data;
                 if (success == null || !success!) {
