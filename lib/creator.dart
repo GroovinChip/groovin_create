@@ -24,7 +24,7 @@ class Creator extends StatefulWidget {
 
 class _CreatorState extends State<Creator> with Provided {
   int _pageIndex = 0;
-  PageController _pageController;
+  PageController? _pageController;
   final _formKey = GlobalKey<FormState>();
 
   BuildConfig _config = BuildConfig(
@@ -34,19 +34,20 @@ class _CreatorState extends State<Creator> with Provided {
 
   String result = '';
   bool creatingProject = false;
-  bool success;
+  bool? success;
 
   @override
   void initState() {
     super.initState();
-    _config.projectLocation = prefsService.prefsStream.valueWrapper.value.defaultSavePath;
+    _config.projectLocation =
+        prefsService.prefsStream.valueWrapper!.value.defaultSavePath;
     _pageController = PageController(initialPage: _pageIndex);
   }
 
   void _next() {
     setState(() {
       _pageIndex++;
-      _pageController.nextPage(
+      _pageController!.nextPage(
         duration: Duration(milliseconds: 600),
         curve: Curves.easeInOutCubic,
       );
@@ -56,7 +57,7 @@ class _CreatorState extends State<Creator> with Provided {
   void _previous() {
     setState(() {
       _pageIndex--;
-      _pageController.previousPage(
+      _pageController!.previousPage(
         duration: Duration(milliseconds: 600),
         curve: Curves.easeInOutCubic,
       );
@@ -65,7 +66,7 @@ class _CreatorState extends State<Creator> with Provided {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController!.dispose();
     super.dispose();
   }
 
@@ -117,10 +118,10 @@ class _CreatorState extends State<Creator> with Provided {
           Expanded(
             child: StreamBuilder<UserPrefs>(
               stream: prefsService.prefsStream,
-              initialData: prefsService.prefsStream.valueWrapper.value,
+              initialData: prefsService.prefsStream.valueWrapper!.value,
               builder: (context, snapshot) {
-                final userPrefs = snapshot?.data;
-                if (success == null || !success) {
+                final userPrefs = snapshot.data;
+                if (success == null || !success!) {
                   return Form(
                     key: _formKey,
                     child: PageView(
@@ -190,7 +191,7 @@ class _CreatorState extends State<Creator> with Provided {
                               ),
                               const SizedBox(height: 16),
                               TextEditingControllerBuilder(
-                                text: userPrefs.shouldUseDefaultDescription
+                                text: userPrefs!.shouldUseDefaultDescription!
                                     ? userPrefs.defaultDescription
                                     : '',
                                 builder: (context, controller) {
@@ -240,7 +241,7 @@ class _CreatorState extends State<Creator> with Provided {
                     child: CircularProgressIndicator(),
                   );
                 }
-                if (success != null && success) {
+                if (success != null && success!) {
                   return Center(
                     child: Text(
                       'Created a Groovin app! 🍪',
@@ -248,7 +249,7 @@ class _CreatorState extends State<Creator> with Provided {
                     ),
                   );
                 }
-                if (success != null && !success) {
+                if (success != null && !success!) {
                   return Center(
                     child: Text(
                       'App creation failed',
@@ -260,7 +261,7 @@ class _CreatorState extends State<Creator> with Provided {
               },
             ),
           ),
-          if (success == null || !success) ...[
+          if (success == null || !success!) ...[
             Stack(
               //alignment: Alignment.centerLeft,
               children: [
@@ -297,7 +298,7 @@ class _CreatorState extends State<Creator> with Provided {
                         onPressed: () async {
                           // validate
                           //...
-                          _formKey.currentState.save();
+                          _formKey.currentState!.save();
                           // run command
                           setState(() => creatingProject = true);
 

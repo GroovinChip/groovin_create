@@ -6,8 +6,8 @@ class BuildConfig {
     this.packageName,
   });
 
-  String projectName;
-  String projectLocation;
-  String description;
-  String packageName;
+  String? projectName;
+  String? projectLocation;
+  String? description;
+  String? packageName;
 }

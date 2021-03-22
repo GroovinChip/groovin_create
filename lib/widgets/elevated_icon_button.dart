@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 /// A custom ElevatedButton with a modified size made to fit icons
 class ElevatedIconButton extends StatelessWidget {
   const ElevatedIconButton({
-    Key key,
+    Key? key,
     this.icon,
     this.color,
     this.onPressed,
   }) : super(key: key);
 
-  final Widget icon;
-  final Color color;
-  final VoidCallback onPressed;
+  final Widget? icon;
+  final Color? color;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

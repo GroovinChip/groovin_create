@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 class GroovinCreateApp extends StatelessWidget {
   const GroovinCreateApp({
-    Key key,
-    @required this.prefsService,
+    Key? key,
+    required this.prefsService,
   }) : super(key: key);
 
   final UserPrefsService prefsService;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -22,54 +23,55 @@ class UserPrefsService {
     getShouldUseDefaultDescription();
   }
 
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   final prefsStream = BehaviorSubject<UserPrefs>.seeded(UserPrefs());
 
   Future<void> getDefaultSavePath() async {
     final path = prefs.getString('default_save_path');
     if (path == null && Platform.isMacOS) {
-      final defaultDir = await path_provider.getDownloadsDirectory();
-      prefsStream.value.defaultSavePath = defaultDir.path;
+      final defaultDir =
+          await (path_provider.getDownloadsDirectory() as FutureOr<Directory>);
+      prefsStream.value!.defaultSavePath = defaultDir.path;
       await setDefaultSavePath(defaultDir.path);
       log('Set default save path to ${defaultDir.path}',
           name: 'Groovin Create');
     }
 
-    prefsStream.value.defaultSavePath = path;
+    prefsStream.value!.defaultSavePath = path;
   }
 
   Future<void> setDefaultSavePath(String path) async {
-    prefsStream.value.defaultSavePath = path;
+    prefsStream.value!.defaultSavePath = path;
     await prefs.setString('default_save_path', path);
   }
 
   void getDefaultPackage() {
-    prefsStream.value.defaultPackage =
+    prefsStream.value!.defaultPackage =
         prefs.getString('default_package') ?? 'com.example';
   }
 
   Future<void> setDefaultPackage(String package) async {
-    prefsStream.value.defaultPackage = package;
+    prefsStream.value!.defaultPackage = package;
     await prefs.setString('default_package', package);
   }
 
   void getDefaultDescription() {
-    prefsStream.value.defaultDescription =
+    prefsStream.value!.defaultDescription =
         prefs.getString('default_description') ?? 'A new Flutter project.';
   }
 
   Future<void> setDefaultDescription(String description) async {
-    prefsStream.value.defaultDescription = description;
+    prefsStream.value!.defaultDescription = description;
     await prefs.setString('default_description', description);
   }
 
   void getShouldUseDefaultDescription() {
-    prefsStream.value.shouldUseDefaultDescription =
+    prefsStream.value!.shouldUseDefaultDescription =
         prefs.getBool('should_use_default_description') ?? true;
   }
 
   Future<void> setShouldUseDefaultDescription(bool shouldUseDefaultDesc) async {
-    prefsStream.value.shouldUseDefaultDescription = shouldUseDefaultDesc;
+    prefsStream.value!.shouldUseDefaultDescription = shouldUseDefaultDesc;
     await prefs.setBool('should_use_default_description', shouldUseDefaultDesc);
   }
 
@@ -79,8 +81,8 @@ class UserPrefsService {
 }
 
 class UserPrefs {
-  String defaultSavePath;
-  String defaultPackage;
-  String defaultDescription;
-  bool shouldUseDefaultDescription;
+  String? defaultSavePath;
+  String? defaultPackage;
+  String? defaultDescription;
+  bool? shouldUseDefaultDescription;
 }

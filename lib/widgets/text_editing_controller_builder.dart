@@ -24,16 +24,16 @@ import 'package:flutter/widgets.dart';
 /// Source: https://gist.github.com/lukepighetti/55d367808e994e426fc0c7f7032fab9c
 class TextEditingControllerBuilder extends StatefulWidget {
   const TextEditingControllerBuilder({
-    Key key,
-    @required this.text,
-    @required this.builder,
+    Key? key,
+    required this.text,
+    required this.builder,
   }) : super(key: key);
 
   /// The text to declaratively update in the text controller
-  final String text;
+  final String? text;
 
   /// The builder which exposes the [TextEditingController] to the child
-  final Widget Function(BuildContext context, TextEditingController controller)
+  final Widget Function(BuildContext context, TextEditingController? controller)
       builder;
 
   @override
@@ -43,7 +43,7 @@ class TextEditingControllerBuilder extends StatefulWidget {
 
 class _TextEditingControllerBuilderState
     extends State<TextEditingControllerBuilder> {
-  TextEditingController controller;
+  TextEditingController? controller;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _TextEditingControllerBuilderState
   @override
   void didUpdateWidget(covariant TextEditingControllerBuilder oldWidget) {
     if (oldWidget.text != widget.text) {
-      controller.value = controller.value.copyWith(text: widget.text);
+      controller!.value = controller!.value.copyWith(text: widget.text);
     }
 
     super.didUpdateWidget(oldWidget);

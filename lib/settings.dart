@@ -10,7 +10,7 @@ import 'package:groovin_create/widgets/elevated_icon_button.dart';
 import 'package:groovin_create/widgets/text_editing_controller_builder.dart';
 
 class Settings extends StatefulWidget {
-  Settings({Key key}) : super(key: key);
+  Settings({Key? key}) : super(key: key);
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -18,15 +18,15 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> with Provided {
   final _formKey = GlobalKey<FormState>();
-  bool useDefaultDescription;
-  String savePath;
+  bool? useDefaultDescription;
+  String? savePath;
 
   @override
   void initState() {
     super.initState();
-    savePath = prefsService.prefsStream.valueWrapper.value.defaultSavePath;
+    savePath = prefsService.prefsStream.valueWrapper!.value.defaultSavePath;
     useDefaultDescription =
-        prefsService.prefsStream.valueWrapper.value.shouldUseDefaultDescription;
+        prefsService.prefsStream.valueWrapper!.value.shouldUseDefaultDescription;
   }
 
   @override
@@ -34,7 +34,7 @@ class _SettingsState extends State<Settings> with Provided {
     return Material(
       child: StreamBuilder<UserPrefs>(
         stream: prefsService.prefsStream,
-        initialData: prefsService.prefsStream.valueWrapper.value,
+        initialData: prefsService.prefsStream.valueWrapper!.value,
         builder: (context, snapshot) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +68,7 @@ class _SettingsState extends State<Settings> with Provided {
                                   child: TextFormField(
                                     controller: controller,
                                     onSaved: (value) {
-                                      final dir = Directory(value);
+                                      final dir = Directory(value!);
                                       if (dir.existsSync()) {
                                         prefsService
                                             .setDefaultSavePath(dir.path);
@@ -104,7 +104,7 @@ class _SettingsState extends State<Settings> with Provided {
                             return TextFormField(
                               controller: controller,
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return 'Package cannot be empty';
                                 }
 
@@ -113,7 +113,7 @@ class _SettingsState extends State<Settings> with Provided {
                                 return null;
                               },
                               onSaved: (value) =>
-                                  prefsService.setDefaultPackage(value),
+                                  prefsService.setDefaultPackage(value!),
                               decoration: InputDecoration(
                                 labelText: 'Default package',
                               ),
@@ -133,7 +133,7 @@ class _SettingsState extends State<Settings> with Provided {
                             Text('Use default project description')
                           ],
                         ),
-                        if (useDefaultDescription) ...[
+                        if (useDefaultDescription!) ...[
                           const SizedBox(height: 8.0),
                           TextEditingControllerBuilder(
                             text: snapshot.data?.defaultDescription,
@@ -141,7 +141,7 @@ class _SettingsState extends State<Settings> with Provided {
                               return TextFormField(
                                 controller: controller,
                                 onSaved: (value) =>
-                                    prefsService.setDefaultDescription(value),
+                                    prefsService.setDefaultDescription(value!),
                                 decoration: InputDecoration(
                                   labelText: 'Default project description',
                                 ),
@@ -176,10 +176,10 @@ class _SettingsState extends State<Settings> with Provided {
                               Colors.blue.shade800, Colors.grey.shade800, .5),
                         ),
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
                             prefsService.setShouldUseDefaultDescription(
-                                useDefaultDescription);
+                                useDefaultDescription!);
                             Navigator.of(context).pop();
                           }
                         },
