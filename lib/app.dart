@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:groovin_create/creator.dart';
+import 'package:groovin_create/pages/creator.dart';
 import 'package:groovin_create/services/user_prefs_service.dart';
-import 'package:groovin_create/theme.dart';
+import 'package:groovin_create/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class GroovinCreateApp extends StatelessWidget {

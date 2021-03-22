@@ -4,7 +4,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:groovin_create/provided_state.dart';
+import 'package:groovin_create/mixins/provided_state.dart';
 import 'package:groovin_create/services/user_prefs_service.dart';
 import 'package:groovin_create/widgets/elevated_icon_button.dart';
 import 'package:groovin_create/widgets/text_editing_controller_builder.dart';
