@@ -39,7 +39,7 @@ class _CreatorState extends State<Creator> with Provided {
   @override
   void initState() {
     super.initState();
-    _config.projectLocation = prefsService.prefsStream.value.defaultSavePath;
+    _config.projectLocation = prefsService.prefsStream.valueWrapper.value.defaultSavePath;
     _pageController = PageController(initialPage: _pageIndex);
   }
 
@@ -117,7 +117,7 @@ class _CreatorState extends State<Creator> with Provided {
           Expanded(
             child: StreamBuilder<UserPrefs>(
               stream: prefsService.prefsStream,
-              initialData: prefsService.prefsStream.value,
+              initialData: prefsService.prefsStream.valueWrapper.value,
               builder: (context, snapshot) {
                 final userPrefs = snapshot?.data;
                 if (success == null || !success) {

@@ -24,9 +24,9 @@ class _SettingsState extends State<Settings> with Provided {
   @override
   void initState() {
     super.initState();
-    savePath = prefsService.prefsStream.value.defaultSavePath;
+    savePath = prefsService.prefsStream.valueWrapper.value.defaultSavePath;
     useDefaultDescription =
-        prefsService.prefsStream.value.shouldUseDefaultDescription;
+        prefsService.prefsStream.valueWrapper.value.shouldUseDefaultDescription;
   }
 
   @override
@@ -34,7 +34,7 @@ class _SettingsState extends State<Settings> with Provided {
     return Material(
       child: StreamBuilder<UserPrefs>(
         stream: prefsService.prefsStream,
-        initialData: prefsService.prefsStream.value,
+        initialData: prefsService.prefsStream.valueWrapper.value,
         builder: (context, snapshot) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
