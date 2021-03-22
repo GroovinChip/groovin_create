@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ import 'package:groovin_create/widgets/buttons/next_button.dart';
 import 'package:groovin_create/widgets/buttons/previous_button.dart';
 import 'package:groovin_create/widgets/elevated_icon_button.dart';
 import 'package:groovin_create/widgets/text_editing_controller_builder.dart';
-import 'package:file_selector_platform_interface/file_selector_platform_interface.dart';
+import 'package:sentry/sentry.dart';
 
 class Creator extends StatefulWidget {
   @override
@@ -162,7 +164,17 @@ class _CreatorState extends State<Creator> with Provided {
                                     ),
                                   ),
                                   const SizedBox(width: 8),
-                                  IconButton(
+                                  ElevatedIconButton(
+                                    icon: Icon(Icons.folder_open),
+                                    onPressed: () async {
+                                      final path = await FileSelectorPlatform
+                                          .instance
+                                          .getDirectoryPath();
+                                      setState(
+                                          () => _config.projectLocation = path);
+                                    },
+                                  ),
+                                  /*IconButton(
                                     tooltip: 'Choose directory',
                                     color: theme.iconTheme.color,
                                     icon: Icon(Icons.folder_open),
@@ -173,7 +185,7 @@ class _CreatorState extends State<Creator> with Provided {
                                       setState(
                                           () => _config.projectLocation = path);
                                     },
-                                  ),
+                                  ),*/
                                 ],
                               ),
                               const SizedBox(height: 16),
@@ -212,7 +224,7 @@ class _CreatorState extends State<Creator> with Provided {
                                     onChanged: (value) =>
                                         _config.packageName = value,
                                     onSaved: (value) =>
-                                    _config.packageName = value,
+                                        _config.packageName = value,
                                   );
                                 },
                               ),
@@ -259,11 +271,11 @@ class _CreatorState extends State<Creator> with Provided {
                     icon: Icon(Icons.settings),
                     onPressed: () => Navigator.of(context)
                         .push(
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (_) => Settings(),
-                      ),
-                    )
+                          MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (_) => Settings(),
+                          ),
+                        )
                         .whenComplete(() => setState(() {})),
                   ),
                 ),
@@ -288,19 +300,21 @@ class _CreatorState extends State<Creator> with Provided {
                           _formKey.currentState.save();
                           // run command
                           setState(() => creatingProject = true);
-                          var _result = await Process.run(
+
+                          ProcessResult _result = await Process.run(
                             'groovin',
                             [
                               'create',
-                              //'${_config.projectLocation}',
                               '${_config.projectName}',
                               '--description=${_config.description}',
                               '--package_id=${_config.packageName}',
                             ],
-                            workingDirectory: '${_config.projectLocation}/',
+                            workingDirectory: '${_config.projectLocation}',
+                            runInShell: true,
                           );
 
                           print(_result.stdout);
+
                           if (_result.exitCode == 0) {
                             setState(() => creatingProject = false);
                             setState(() => success = true);
@@ -309,6 +323,11 @@ class _CreatorState extends State<Creator> with Provided {
                               exit(0);
                             }
                           } else {
+                            await Sentry.captureMessage(
+                              'Error with exit code ${_result.exitCode} when '
+                              'creating project: ${_result.stderr}',
+                              level: SentryLevel.error,
+                            );
                             setState(() => creatingProject = false);
                             setState(() => success = false);
                           }
@@ -320,7 +339,6 @@ class _CreatorState extends State<Creator> with Provided {
               ],
             ),
           ],
-
         ],
       ),
     );

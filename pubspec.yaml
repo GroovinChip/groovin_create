@@ -24,6 +24,7 @@ dependencies:
   path_provider_macos: ^2.0.0
   provider: ^5.0.0
   rxdart: ^0.25.0
+  sentry: ^4.0.6
   shared_preferences: ^2.0.5
 
 dev_dependencies:
