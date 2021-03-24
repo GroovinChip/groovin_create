@@ -303,16 +303,13 @@ class _CreatorState extends State<Creator> with Provided {
                           // run command
                           setState(() => creatingProject = true);
 
+                          final command =
+                              'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
+
                           ProcessResult _result = await Process.run(
-                            'groovin',
-                            [
-                              'create',
-                              '${_config.projectName}',
-                              '--description=${_config.description}',
-                              '--package_id=${_config.packageName}',
-                            ],
+                            '/bin/zsh',
+                            ['-c', 'source ~/.zshrc && $command'],
                             workingDirectory: '${_config.projectLocation}',
-                            runInShell: true,
                           );
 
                           print(_result.stdout);
