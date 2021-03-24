@@ -2,6 +2,12 @@
 
 A Flutter Desktop App for creating Flutter apps using the [groovin_cli](https://github.com/GroovinChip/groovin_create).
 
+## Prerequisites
+You should have [groovin_cli](https://github.com/GroovinChip/groovin_create) installed:
+```sh
+$ dart pub global activate --source git git@github.com:GroovinChip/groovin_cli.git
+```
+
 ## Screenshots
 ![page_1](https://imgur.com/bPSJ5LD.png)
 ![page_2](https://imgur.com/4ooVF7I.png)
