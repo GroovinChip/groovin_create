@@ -11,9 +11,9 @@ If the CLI is not installed, project creation will not work.
 
 ## Installation
 ### Windows
-Download the `groovin_create.msix` Windows installer and run it to install the app.
+Download and run the `groovin_create.msix` Windows installer.
 ### macOS
-Download the `groovin_create_macos.zip` file, extract to desired location and run the app.
+Download and run the `groovin_create.dmg` macos installer.
 
 ## Screenshots
 ![page_1](https://imgur.com/bPSJ5LD.png)
