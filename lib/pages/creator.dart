@@ -306,29 +306,59 @@ class _CreatorState extends State<Creator> with Provided {
                           final command =
                               'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
 
-                          ProcessResult _result = await Process.run(
-                            '/bin/zsh',
-                            ['-c', 'source ~/.zshrc && $command'],
-                            workingDirectory: '${_config.projectLocation}',
-                          );
+                          late ProcessResult _result;
 
-                          print(_result.stdout);
-
-                          if (_result.exitCode == 0) {
-                            setState(() => creatingProject = false);
-                            setState(() => success = true);
-                            if (kReleaseMode && Platform.isMacOS) {
-                              await Future.delayed(Duration(seconds: 4));
-                              exit(0);
-                            }
-                          } else {
-                            await Sentry.captureMessage(
-                              'Error with exit code ${_result.exitCode} when '
-                              'creating project: ${_result.stderr}',
-                              level: SentryLevel.error,
+                          if (Platform.isMacOS) {
+                            ProcessResult _result = await Process.run(
+                              '/bin/zsh',
+                              ['-c', 'source ~/.zshrc && $command'],
+                              workingDirectory: '${_config.projectLocation}',
                             );
-                            setState(() => creatingProject = false);
-                            setState(() => success = false);
+
+                            print(_result.stdout);
+
+                            if (_result.exitCode == 0) {
+                              setState(() => creatingProject = false);
+                              setState(() => success = true);
+                              if (kReleaseMode && Platform.isMacOS) {
+                                await Future.delayed(Duration(seconds: 4));
+                                exit(0);
+                              }
+                            } else {
+                              await Sentry.captureMessage(
+                                'Error with exit code ${_result.exitCode} when '
+                                'creating project: ${_result.stderr}',
+                                level: SentryLevel.error,
+                              );
+                              setState(() => creatingProject = false);
+                              setState(() => success = false);
+                            }
+                          }
+
+                          if (Platform.isWindows) {
+                            ProcessResult _result = await Process.run(
+                              'groovin',
+                              [
+                                'create',
+                                '${_config.projectName}',
+                                '--description=${_config.description}',
+                                '--package_id=${_config.packageName}',
+                              ],
+                              runInShell: true,
+                              workingDirectory: '${_config.projectLocation}',
+                            );
+
+                            print(_result.stdout);
+
+                            final appDir = Directory('${_config.projectLocation}\\${_config.projectName}');
+                            if (appDir.existsSync()) {
+                              setState(() => creatingProject = false);
+                              setState(() => success = true);
+                              if (kReleaseMode) {
+                                await Future.delayed(Duration(seconds: 4));
+                                exit(0);
+                              }
+                            }
                           }
                         },
                       ),
