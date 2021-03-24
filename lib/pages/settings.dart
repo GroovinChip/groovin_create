@@ -9,6 +9,7 @@ import 'package:groovin_create/mixins/provided_state.dart';
 import 'package:groovin_create/services/user_prefs_service.dart';
 import 'package:groovin_create/widgets/elevated_icon_button.dart';
 import 'package:groovin_create/widgets/text_editing_controller_builder.dart';
+import 'package:groovin_create/widgets/window_buttons.dart';
 
 class Settings extends StatefulWidget {
   Settings({Key? key}) : super(key: key);
@@ -43,12 +44,21 @@ class _SettingsState extends State<Settings> with Provided {
               Container(
                 height: 28,
                 child: MoveWindow(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Settings',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Settings',
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ),
+                      if (Platform.isWindows)
+                        Positioned(
+                          right: 0,
+                          child: WindowButtons(),
+                        ),
+                    ],
                   ),
                 ),
               ),

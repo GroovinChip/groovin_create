@@ -1,7 +1,7 @@
 name: groovin_create
 description: A Flutter Desktop App for creating Flutter apps using the groovin_cli.
 publish_to: 'none'
-version: 0.2.0+3
+version: 0.3.0+5
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   file_selector: ^0.8.2
   file_selector_macos: ^0.0.4
+  file_selector_windows: ^0.0.2
   menubar:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
@@ -22,6 +23,7 @@ dependencies:
 #    git: https://github.com/rodydavis/multi_window.git
   path_provider: ^2.0.1
   path_provider_macos: ^2.0.0
+  path_provider_windows: ^2.0.0
   provider: ^5.0.0
   rxdart: ^0.26.0
   sentry: ^4.0.6
@@ -30,6 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  msix: ^1.0.2
 
 flutter:
   
@@ -37,3 +40,16 @@ flutter:
   
   assets:
     - assets/images/
+
+msix_config:
+  display_name: Groovin Create
+  publisher_display_name: GroovinChip
+  identity_name: dev.groovinchip.GroovinCreate
+  msix_version: 1.0.0.0
+  #publisher: CN=My Company, O=My Company, L=Berlin, S=Berlin, C=DE
+  logo_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square44x44Logo.targetsize-30.png
+  start_menu_icon_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square44x44Logo.targetsize-30.png
+  tile_icon_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square150x150Logo.scale-100.png
+  #vs_generated_images_folder_path: C:\<PathToFolder>\Images
+  icons_background_color: transparent
+  architecture: x64

@@ -16,6 +16,7 @@ import 'package:groovin_create/widgets/buttons/next_button.dart';
 import 'package:groovin_create/widgets/buttons/previous_button.dart';
 import 'package:groovin_create/widgets/elevated_icon_button.dart';
 import 'package:groovin_create/widgets/text_editing_controller_builder.dart';
+import 'package:groovin_create/widgets/window_buttons.dart';
 import 'package:sentry/sentry.dart';
 
 class Creator extends StatefulWidget {
@@ -82,12 +83,21 @@ class _CreatorState extends State<Creator> with Provided {
           Container(
             height: 28,
             child: MoveWindow(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Groovin Create',
-                  style: theme.textTheme.subtitle2,
-                ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Groovin Create',
+                      style: theme.textTheme.subtitle2,
+                    ),
+                  ),
+                  if (Platform.isWindows)
+                    Positioned(
+                      right: 0,
+                      child: WindowButtons(),
+                    ),
+                ],
               ),
             ),
           ),
@@ -303,32 +313,60 @@ class _CreatorState extends State<Creator> with Provided {
                           // run command
                           setState(() => creatingProject = true);
 
-                          final command =
-                              'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
-
-                          ProcessResult _result = await Process.run(
-                            '/bin/zsh',
-                            ['-c', 'source ~/.zshrc && $command'],
-                            workingDirectory: '${_config.projectLocation}',
-                          );
-
-                          print(_result.stdout);
-
-                          if (_result.exitCode == 0) {
-                            setState(() => creatingProject = false);
-                            setState(() => success = true);
-                            if (kReleaseMode && Platform.isMacOS) {
-                              await Future.delayed(Duration(seconds: 4));
-                              exit(0);
-                            }
-                          } else {
-                            await Sentry.captureMessage(
-                              'Error with exit code ${_result.exitCode} when '
-                              'creating project: ${_result.stderr}',
-                              level: SentryLevel.error,
+                          if (Platform.isMacOS) {
+                            final command =
+                                'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
+                            ProcessResult _result = await Process.run(
+                              '/bin/zsh',
+                              ['-c', 'source ~/.zshrc && $command'],
+                              workingDirectory: '${_config.projectLocation}',
                             );
-                            setState(() => creatingProject = false);
-                            setState(() => success = false);
+
+                            print(_result.stdout);
+
+                            if (_result.exitCode == 0) {
+                              setState(() => creatingProject = false);
+                              setState(() => success = true);
+                              if (kReleaseMode && Platform.isMacOS) {
+                                await Future.delayed(Duration(seconds: 4));
+                                exit(0);
+                              }
+                            } else {
+                              await Sentry.captureMessage(
+                                'Error with exit code ${_result.exitCode} when '
+                                'creating project: ${_result.stderr}',
+                                level: SentryLevel.error,
+                              );
+                              setState(() => creatingProject = false);
+                              setState(() => success = false);
+                            }
+                          }
+
+                          if (Platform.isWindows) {
+                            ProcessResult _result = await Process.run(
+                              'groovin',
+                              [
+                                'create',
+                                '${_config.projectName}',
+                                '--description=${_config.description}',
+                                '--package_id=${_config.packageName}',
+                              ],
+                              runInShell: true,
+                              workingDirectory: '${_config.projectLocation}',
+                            );
+
+                            print(_result.stdout);
+
+                            final appDir = Directory(
+                                '${_config.projectLocation}\\${_config.projectName}');
+                            if (appDir.existsSync()) {
+                              setState(() => creatingProject = false);
+                              setState(() => success = true);
+                              if (kReleaseMode) {
+                                await Future.delayed(Duration(seconds: 4));
+                                exit(0);
+                              }
+                            }
                           }
                         },
                       ),
