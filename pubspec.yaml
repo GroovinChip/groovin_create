@@ -1,7 +1,7 @@
 name: groovin_create
 description: A Flutter Desktop App for creating Flutter apps using the groovin_cli.
 publish_to: 'none'
-version: 0.3.0+4-windows.1
+version: 0.3.0+5
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -44,12 +44,12 @@ flutter:
 msix_config:
   display_name: Groovin Create
   publisher_display_name: GroovinChip
-  identity_name: dev.groovinchip.groovin_create
+  identity_name: dev.groovinchip.GroovinCreate
   msix_version: 1.0.0.0
-  publisher: CN=My Company, O=My Company, L=Berlin, S=Berlin, C=DE
-  logo_path: C:\<PathToIcon>\<Logo.png>
-  start_menu_icon_path: C:\<PathToIcon>\<Icon.png>
-  tile_icon_path: C:\<PathToIcon>\<Icon.png>
+  #publisher: CN=My Company, O=My Company, L=Berlin, S=Berlin, C=DE
+  logo_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square44x44Logo.targetsize-30.png
+  start_menu_icon_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square44x44Logo.targetsize-30.png
+  tile_icon_path: C:\Users\Reuvain\Downloads\groovin_create_windows_icons\Square150x150Logo.scale-100.png
   #vs_generated_images_folder_path: C:\<PathToFolder>\Images
   icons_background_color: transparent
   architecture: x64
