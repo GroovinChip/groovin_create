@@ -303,12 +303,9 @@ class _CreatorState extends State<Creator> with Provided {
                           // run command
                           setState(() => creatingProject = true);
 
-                          final command =
-                              'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
-
-                          late ProcessResult _result;
-
                           if (Platform.isMacOS) {
+                            final command =
+                                'groovin create ${_config.projectName} --description=\'${_config.description}\' --package_id=\'${_config.packageName}\'';
                             ProcessResult _result = await Process.run(
                               '/bin/zsh',
                               ['-c', 'source ~/.zshrc && $command'],
@@ -350,7 +347,8 @@ class _CreatorState extends State<Creator> with Provided {
 
                             print(_result.stdout);
 
-                            final appDir = Directory('${_config.projectLocation}\\${_config.projectName}');
+                            final appDir = Directory(
+                                '${_config.projectLocation}\\${_config.projectName}');
                             if (appDir.existsSync()) {
                               setState(() => creatingProject = false);
                               setState(() => success = true);
