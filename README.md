@@ -1,6 +1,6 @@
 # groovin_create
 
-A Flutter Desktop App for creating Flutter apps using the groovin_cli.
+A Flutter Desktop App for creating Flutter apps using the [groovin_cli](https://github.com/GroovinChip/groovin_create).
 
 ## Screenshots
 ![page_1](https://imgur.com/bPSJ5LD.png)
